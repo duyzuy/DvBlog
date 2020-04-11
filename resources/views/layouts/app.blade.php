@@ -9,15 +9,16 @@
 
     <title>{{ config('app.name', 'DvBlog') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+   
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link href="{{ asset('css/icon.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
@@ -25,7 +26,7 @@
         <nav class="navbar has-shadow">
             <div class="container">
                 <div class="navbar-brand">
-                    <a class="navbar-item" href="https://bulma.io">
+                    <a class="navbar-item" href="{{ route('home') }}">
                         <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
                     </a>
                     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -52,10 +53,7 @@
                     </div>
             
                     <div class="navbar-end">
-              
-                            {{-- @guest
-                          
-                                
+                            @guest
                                     <a class="navbar-item is-tab" href="{{ route('login') }}">{{ __('Login') }}</a>
 
                                     @if (Route::has('register'))
@@ -63,18 +61,18 @@
                                         <a class="navbar-item is-tab" href="{{ route('register') }}">{{ __('Joint with us') }}</a>
                                 
                                     @endif
-                            @else --}}
-                                <button class="nav-item dropdown is-aligned-right is-open is-tab">
+                            @else
+                                <button class="nav-item dropdown is-aligned-right is-tab">
                                    Duy vu <span class="icon"><i class="fa fa-caret-down"></i></span>
 
                                     <ul class="dropdown-menu">
-                                        <li><a href="">Profile</a></li>
-                                        <li><a href="">Notifications</a></li>
-                                        <li><a href="">Settings</a></li>
+                                        <li><a href=""><i class="fas fa-user m-r-5"></i>Profile</a></li>
+                                        <li><a href=""><i class="fas fa-bell m-r-5"></i>Notifications</a></li>
+                                        <li><a href=""><i class="fas fa-cog m-r-5"></i>Settings</a></li>
                                         <hr class="navbar-divider">
                                         <li>
                                             <a  href="{{ route('logout') }}" onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();"> {{ __('Logout') }}</a>
+                                            document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt m-r-5"></i>{{ __('Logout') }}</a>
                                         </li>
                                         
 
@@ -83,7 +81,7 @@
                                         </form>
                                     </div>
                                 </button>
-                            {{-- @endguest --}}
+                            @endguest
                         </div>
                     </div>
                 </div>
@@ -91,9 +89,12 @@
         </nav>
 
 
-        <main class="py-4">
+        <main id="main">
             @yield('content')
         </main>
     </div>
+     <!-- Scripts -->
+     <script src="{{ asset('js/app.js') }}" defer></script>
+     @yield('scripts')
 </body>
 </html>
