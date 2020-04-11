@@ -1,0 +1,24 @@
+
+.dropdown{
+    position: relative;
+
+    .dropdown-menu{
+        background: #fff;
+        box-shadow: 0 0 1px rgba(57, 70, 78, .15), 0 20px 55px -8px rgba(57, 70, 78, .25);
+        text-align: left;
+
+    }
+    &.is-aligned-right .dropdown-menu{
+        right: 0;
+        left: auto;
+    }
+    &.is-open .dropdown-menu{
+        display: block;
+    }
+    li a{
+          padding: 0.5rem 1rem;
+          color: #3c3c3c;
+          display: block;
+      }  
+    
+}

@@ -1,4 +1,4 @@
-// Fonts
+// // Fonts
 // @import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
@@ -7,8 +7,19 @@
 // Bootstrap
 // @import '~bootstrap/scss/bootstrap';
 
-@import "node_modules/bulma/bulma";
 
-@import "node_modules/font-awesome/scss/font-awesome";
+@import 'node_modules/font-awesome/scss/font-awesome';
 
-@import "node_modules/buefy/src/scss/buefy";
+//Bulma 
+
+@import 'node_modules/bulma/bulma';
+
+//Bulma vue module
+
+@import 'node_modules/buefy/src/scss/buefy';
+
+//custom sass page
+
+@import 'overrides';
+@import 'helpers';
+@import 'style';
