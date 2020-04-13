@@ -17578,6 +17578,10 @@ html {
   overflow-y: auto;
 }
 
+button.dropdown {
+  font-size: inherit;
+}
+
 .dropdown {
   position: relative;
   background-color: transparent;
@@ -18042,5 +18046,13 @@ a.is-primary:hover {
 
 .p-r-100 {
   padding-right: 100px !important;
+}
+
+.side-menu {
+  position: fixed;
+  width: 200px;
+  height: 100vh;
+  left: 0;
+  background: #fff;
 }
 

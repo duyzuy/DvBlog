@@ -8,7 +8,11 @@ html{
     overflow-y: auto;
 }
 
-
+button{
+    &.dropdown{
+        font-size: inherit;
+    }
+}
 .dropdown{
     position: relative;
     background-color: transparent;
