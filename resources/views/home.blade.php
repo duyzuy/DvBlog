@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.manage')
 
 @section('content')
 
-<div class="container">
+<div class="flex-container">
     <div class="columns">
-        <div class="column m-t-100">
+        <div class="column">
             <div class="card m-b-20">
                
                 <div class="card-content">

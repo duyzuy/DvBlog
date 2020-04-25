@@ -1,17 +1,24 @@
 <nav class="navbar has-shadow">
     <div class="container">
         <div class="navbar-brand">
-            <a class="navbar-item" href="{{ route('home') }}">
-                <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+            <div class="navbar-item navbar-logo">
+                <a class="navbar-logo-link" href="{{ route('home') }}">
+                    <img src="{{ asset('/images/bulma-logo.png') }}" width="112" height="28">
+                </a>
+            </div>
+           @if(Request::is('manage*'))
+            <a class="navbar-item btn-side-manage">
+                <i class="fas fa-chevron-right"></i>
             </a>
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            @endif
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMain">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
         </div>
     
-        <div id="navbarBasicExample" class="navbar-menu">
+        <div id="navbarMain" class="navbar-menu">
             <div class="navbar-start">
                 <a class="navbar-item is-tab">Home</a>
                 <a class="navbar-item is-tab">Documentation</a>
@@ -26,7 +33,6 @@
                     </div>
                 </div>
             </div>
-    
             <div class="navbar-end">
                     @guest
                             <a class="navbar-item is-tab" href="{{ route('login') }}">{{ __('Login') }}</a>

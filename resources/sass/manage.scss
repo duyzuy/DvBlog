@@ -3,6 +3,93 @@
     width: 200px;
     height: 100vh;
     left: 0;
-  
-    background: #fff
+    background: #fff;
+    z-index: 99;
+    @include transition(all 240ms ease-in-out);
+    @media screen and (max-width: 1024px){
+        left: -200px
+    }
+    .overlay{
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.58);
+        top: 0;
+        z-index: 999;
+    }
+    &.is-active{
+        left: 0
+    }
+}
+.management-area{
+    position: absolute;
+    top: 4rem;
+    left: 200px;
+    right: 0;
+    @include transition(all 240ms ease-in-out);
+    @media screen and (max-width: 1024px){
+        left: 0
+    }
+}
+.flex-container{
+    margin: 10px 25px;
+}
+
+.navbar-logo{
+    @include touch{
+       flex-grow: 1;
+       order: 2;
+       justify-content: center;
+    }
+}
+.navbar-burger{
+    @include touch{
+        order: 3
+    }
+}
+.btn-side-manage{
+    display: none;
+    @include transition(all 240ms ease-in-out);
+    @include touch{
+        order: 1;
+        display: block;
+    }
+
+    &.is-active{
+        transform: rotateY(180deg)
+    }
+}
+.navbar-logo-link{
+    line-height: 0;
+}
+.menu-list li ul{
+    max-height: 0;
+    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 0;
+    @include transition(all 240ms ease-in-out)
+}
+
+.has-submenu{
+    &.is-active{
+        .submenu{
+         
+        }
+    }
+}
+.menu-list{
+    a{
+        &.is-active{
+            background-color: #00d1b2;
+        }
+    }
+}
+table{
+    .action{
+        width: 30%;
+    }
+    .id{
+        width: 10%
+    }
 }

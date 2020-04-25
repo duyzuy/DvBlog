@@ -123,6 +123,7 @@ return [
          */
         'role' => 'App\Role',
 
+
         /**
          * Permission model
          */

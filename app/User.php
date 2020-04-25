@@ -10,6 +10,7 @@ use Laratrust\Traits\LaratrustUserTrait;
 class User extends Authenticatable
 {
     use Notifiable;
+
     use LaratrustUserTrait;
 
     /**
@@ -18,9 +19,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'user_type',
     ];
 
+   
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -48,5 +50,10 @@ class User extends Authenticatable
     public function user_permission()
     {
         return $this->belongsToMany('App\Permission', 'permission_user', 'user_id', 'permission_id');
+    }
+
+    public function posts(){
+
+        return $this->hasMany('App\Posts', 'author_id');
     }
 }

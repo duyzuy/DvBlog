@@ -32,11 +32,8 @@
                             @enderror
                         </div>
                         
-                        <label class="checkbox">
-                            <input type="checkbox" name="checkbox">
-                            Remember me
-                        </label><br/>
-                        {{-- <b-checkbox name="remember" class="m-t-20">Remember me</b-checkbox> --}}
+                       
+                         <b-checkbox name="remember" class="m-t-20">Remember me</b-checkbox>
 
                         <div class="field">
                             <div class="control">
@@ -60,3 +57,13 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+    
+<script>
+    const app = new Vue({
+        el: '#app', 
+        data: {}
+    })
+    </script>
+    
+@endpush

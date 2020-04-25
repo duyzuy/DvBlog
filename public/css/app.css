@@ -17664,6 +17664,10 @@ a.is-primary:hover {
   font-weight: 400;
 }
 
+.card.no-shadow {
+  box-shadow: none;
+}
+
 .m-t-5 {
   margin-top: 5px !important;
 }
@@ -18054,5 +18058,99 @@ a.is-primary:hover {
   height: 100vh;
   left: 0;
   background: #fff;
+  z-index: 99;
+  transition: all 240ms ease-in-out;
+}
+
+@media screen and (max-width: 1024px) {
+  .side-menu {
+    left: -200px;
+  }
+}
+
+.side-menu .overlay {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.58);
+  top: 0;
+  z-index: 999;
+}
+
+.side-menu.is-active {
+  left: 0;
+}
+
+.management-area {
+  position: absolute;
+  top: 4rem;
+  left: 200px;
+  right: 0;
+  transition: all 240ms ease-in-out;
+}
+
+@media screen and (max-width: 1024px) {
+  .management-area {
+    left: 0;
+  }
+}
+
+.flex-container {
+  margin: 10px 25px;
+}
+
+@media screen and (max-width: 1023px) {
+  .navbar-logo {
+    flex-grow: 1;
+    order: 2;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .navbar-burger {
+    order: 3;
+  }
+}
+
+.btn-side-manage {
+  display: none;
+  transition: all 240ms ease-in-out;
+}
+
+@media screen and (max-width: 1023px) {
+  .btn-side-manage {
+    order: 1;
+    display: block;
+  }
+}
+
+.btn-side-manage.is-active {
+  transform: rotateY(180deg);
+}
+
+.navbar-logo-link {
+  line-height: 0;
+}
+
+.menu-list li ul {
+  max-height: 0;
+  overflow: hidden;
+  margin-top: 0;
+  margin-bottom: 0;
+  transition: all 240ms ease-in-out;
+}
+
+.menu-list a.is-active {
+  background-color: #00d1b2;
+}
+
+table .action {
+  width: 30%;
+}
+
+table .id {
+  width: 10%;
 }
 

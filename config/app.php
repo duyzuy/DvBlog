@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://localhost/DvBlog'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -179,7 +179,19 @@ return [
         * laratrust setup
         */
         Laratrust\LaratrustServiceProvider::class,
+
+
+        /*
+        * Observer service
+        */
+        App\Providers\ObserverServiceProvider::class,
+
+
+        // Unisharp\Ckeditor\ServiceProvider::class,
+        UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
     ],
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -232,6 +244,11 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Laratrust' => Laratrust\LaratrustFacade::class,
 
+        /*
+        * register class
+        */
+        'Helper' => App\Helpers\Helper::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];
