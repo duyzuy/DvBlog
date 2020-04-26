@@ -47,11 +47,11 @@ class PostController extends Controller
     {
         //
         //Validate
-      
+     
         $request->validate([
             'post_title'    =>  'required|max:255',
             'post_slug'     =>  'required|max:255|unique:posts,post_slug,',
-            'post_category' => 'required|integer'
+            'post_categories' =>  'required'
         ]);
 
         $post = new Posts();
@@ -77,7 +77,7 @@ class PostController extends Controller
         }
         $post->save();
         $post->categories()->sync(explode(',', $request->post_categories));
-        $request->flash('success', 'Create post success fully');
+        $request->session()->flash('success', 'Create post success fully');
         return redirect()->route('posts.index');
       
     }

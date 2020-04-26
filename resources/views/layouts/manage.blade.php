@@ -29,6 +29,7 @@
     @include('_includes.nav.manage')
     
     <div id="app" class="management-area">
+        @include('_includes.notifications.flash')
         @yield('content')
      
     </div>
