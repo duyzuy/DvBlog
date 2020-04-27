@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Posts;
 use App\User;
 use App\Categories;
+use App\Tags;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class PostController extends Controller
@@ -34,7 +36,8 @@ class PostController extends Controller
     {
         //
         $categories = Categories::all();
-        return view('manage.posts.create', compact('categories'));
+        $tags = Tags::all();
+        return view('manage.posts.create', compact(['categories', 'tags']));
     }
 
     /**
@@ -47,7 +50,6 @@ class PostController extends Controller
     {
         //
         //Validate
-     
         $request->validate([
             'post_title'    =>  'required|max:255',
             'post_slug'     =>  'required|max:255|unique:posts,post_slug,',
@@ -63,20 +65,35 @@ class PostController extends Controller
         $post->post_status = $request->post_status;
         $post->post_parent = 0;
         $post->comment_status = $request->comment_status;
-       
-        
         $published = Carbon::now();
         $post->published_at = $published->format('Y-m-d H:i:s');
        
-
         $post->author_id = Auth::user()->id;
-        
-       
+        $post->save();
+
+
+        //Update the categories
         if( $request->post_categories === ''){
             return redirect()->route('posts.create');
         }
-        $post->save();
         $post->categories()->sync(explode(',', $request->post_categories));
+
+
+        //update tags
+        if( $request->post_tags !== null){
+            $post->tags()->sync(explode(',', $request->post_tags));
+
+            //Update number post in tag_count
+            $tagsId = explode(',', $request->post_tags);
+            foreach($tagsId as $tagId){
+                $tag = Tags::where('id', $tagId)->withCount('posts')->get();
+                $tag[0]->tag_count = $tag[0]->posts_count;
+                $tag[0]->save();
+
+            }
+        }
+
+        
         $request->session()->flash('success', 'Create post success fully');
         return redirect()->route('posts.index');
       
@@ -104,7 +121,8 @@ class PostController extends Controller
         //
         $post = Posts::where('id', $id)->firstOrFail();
         $categories = Categories::all();
-        return view('manage.posts.edit', compact(['post', 'categories']));
+        $tags = Tags::all();
+        return view('manage.posts.edit', compact(['post', 'categories', 'tags']));
     }
 
     /**
@@ -132,17 +150,30 @@ class PostController extends Controller
         $post->post_status = $request->post_status;
         $post->comment_status = $request->comment_status;
 
+        //update categories
         if($request->post_categories === null){
             $request->flash('error', 'just chose category for update');
             return redirect()->route('posts.edit', $id); 
         }else{
             $post->categories()->sync(explode(',', $request->post_categories));
         }
-    
+        
+        //Update tags
+        if($request->post_tags !== null){
+            $post->tags()->sync(explode(',', $request->post_tags));
+            $tagsId = explode(',', $request->post_tags);
+            
+            //Get the number of post in tag then update tag_count
+            foreach($tagsId as $tagId){
+                $tag = Tags::where('id', $tagId)->withCount('posts')->get();
+                $tag[0]->tag_count = $tag[0]->posts_count;
+                $tag[0]->save();
+            }
+        }
 
         $post->save();
         
-        $request->flash('success', 'Update post success fully');
+        $request->session()->flash('success', 'Update post success fully');
         return redirect()->route('posts.index');
     }
 

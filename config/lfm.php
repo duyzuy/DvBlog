@@ -82,11 +82,11 @@ return [
 
     'disk'                     => 'public',
 
-    'rename_file'              => true,
-    'alphanumeric_filename'    => true,
-    'alphanumeric_directory'   => true,
-    'should_validate_size'     => true,
-    'should_validate_mime'     => true,
+    'rename_file'              => false,
+    'alphanumeric_filename'    => false,
+    'alphanumeric_directory'   => false,
+    'should_validate_size'     => false,
+    'should_validate_mime'     => false,
     // behavior on files with identical name
     // setting it to true cause old file replace with new one
     // setting it to false show `error-file-exist` error and stop upload
@@ -148,6 +148,31 @@ return [
      */
     'php_ini_overrides'        => [
         'memory_limit' => '256M',
+    ],
+
+    'valid_file_mimetypes' =>[
+        'image/jpeg',
+        'image/pjpeg',
+        'image/png',
+        'image/gif',
+        'image/svg+xml',
+        'application/pdf',
+        'text/plain',
+        'image/vnd.microsoft.icon',
+        'image/x-icon',
+        'application/vnd.ms-excel',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/docx'
+       
+    ],
+    'valid_image_mimetypes' => [
+        'image/jpeg',
+        'image/pjpeg',
+        'image/png',
+        'image/gif',
+        'image/svg+xml',
+        'image/vnd.microsoft.icon',
+        'image/x-icon',
     ],
 
   

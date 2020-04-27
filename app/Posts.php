@@ -31,4 +31,11 @@ class Posts extends Model
     public function author(){
         return $this->belongsTo('App\User');
     }
+    // morphToMany($related, $name, $table = null, $foreignKey = null, $otherKey = null, $inverse = false)
+
+    public function tags(){
+        return $this->morphToMany('App\Tags', 'tagable', 'tagable_type', 'tagable_id', 'tag_id')->withTimestamps();
+    }
+
+
 }

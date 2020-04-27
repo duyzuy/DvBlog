@@ -31,6 +31,10 @@ Route::prefix('manage')->middleware('role:superadministrator|administrator|edito
     Route::resource('/categories', 'CategoriesController');
 
     Route::post('ckeditor/image_upload', 'CkeditorController@upload')->name('upload');
+
+    Route::get('media', 'MediaController@index')->name('media.index');
+
+    Route::resource('/tags', 'TagsController');
 });
 
 

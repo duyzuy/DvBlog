@@ -20,6 +20,14 @@
                     <li><a class="{{Route::currentRouteName() == 'categories.create' ? 'is-active' : ''}}" href="{{ route('categories.create') }}">New category</a></li>
                 </ul>
             </li>
+            <li>
+                <a href="{{ route('tags.index') }}" class="{{Request::is('manage/tag*') ? 'is-active' : ''}}">Tags</a>
+              
+            </li>
+            <li>
+                <a href="{{ route('media.index') }}" class="{{Request::is('manage/media*') ? 'is-active' : ''}}">Media</a>
+              
+            </li>
         </ul>
         <p class="menu-label">Administration</p>
         <ul class="menu-list">

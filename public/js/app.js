@@ -2062,13 +2062,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {},
   data: function data() {
     return {
       tags: ['Auckland', 'Wellington', 'Very long string that would overflow']
     };
-  }
+  },
+  methods: {
+    title: function title() {
+      return '123';
+    },
+    alert: function (_alert) {
+      function alert() {
+        return _alert.apply(this, arguments);
+      }
+
+      alert.toString = function () {
+        return _alert.toString();
+      };
+
+      return alert;
+    }(function () {
+      alert(1);
+    })
+  },
+  watch: {}
 });
 
 /***/ }),
@@ -48677,30 +48697,38 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "section",
-      [
-        _c(
-          "b-field",
-          [
-            _c("b-taginput", {
-              attrs: { ellipsis: "", icon: "label", placeholder: "Add a tag" },
-              model: {
-                value: _vm.tags,
-                callback: function($$v) {
-                  _vm.tags = $$v
-                },
-                expression: "tags"
+  return _c(
+    "div",
+    [
+      _c(
+        "b-field",
+        [
+          _c("b-taginput", {
+            attrs: {
+              ellipsis: "",
+              icon: "label",
+              placeholder: "Add a tag",
+              title: 123
+            },
+            nativeOn: {
+              keyup: function($event) {
+                return _vm.alert()
               }
-            })
-          ],
-          1
-        )
-      ],
-      1
-    )
-  ])
+            },
+            model: {
+              value: _vm.tags,
+              callback: function($$v) {
+                _vm.tags = $$v
+              },
+              expression: "tags"
+            }
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

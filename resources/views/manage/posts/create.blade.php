@@ -96,14 +96,22 @@
                                                  <p class="help is-danger">{{ $message }}</p>
                                              @enderror
                                             <input type="hidden" name="post_categories" :value="categorySelected" class="input">
+                                       
                                         </div>
                                     </div>
                                     <hr class="m-t-10 m-b-10">
                                     <div class="content post-tags">
                                         <h4 class="title is-5">Tags</h4>
-                                        
-                                        <tags-widget></tags-widget>
-                                        
+                                        {{-- <tags-widget></tags-widget> --}}
+                                        <div class="fields">
+                                        @foreach($tags as $tag)
+                                            <p class="field"><b-checkbox v-model="tagSelected" native-value="{{ $tag->id }}">{{ $tag->tag_name }}</b-checkbox></p>
+                                        @endforeach
+                                        @error('post_tags')
+                                            <p class="help is-danger">{{ $message }}</p>
+                                        @enderror
+                                        <input type="hidden" name="post_tags" :value="tagSelected" class="input">
+                                        </div>
                                     </div>
 
                                     <hr class="m-t-10 m-b-10">
@@ -119,8 +127,6 @@
                                                 </span>
                                                 <input id="post_thumbnail" class="form-control" type="hidden" name="post_thumbnail">
                                               </div>
-                                            
-                                          
                                     </div>
 
                                     <hr class="m-t-10 m-b-10">
@@ -158,7 +164,8 @@
                 categorySelected: [],
                 title: '{{ old('post_title') }}',
                 slug: '',
-                api_token: '{{ Auth::user()->api_token }}'
+                api_token: '{{ Auth::user()->api_token }}',
+                tagSelected: [],
             },
             methods:{
                 updateSlug: function(val){
@@ -199,22 +206,23 @@
             var file_path = items.map(function (item) {
                 return item.url;
             }).join(',');
-
+        
             // set the value of the desired input to image url
             target_input.value = file_path;
             target_input.dispatchEvent(new Event('change'));
 
             // clear previous preview
-            target_preview.innerHtml = '';
-
+            target_preview.innerHTML = '';
+           
             // set or change the preview image src
             items.forEach(function (item) {
                 let img = document.createElement('img')
                 // img.setAttribute('style', 'height: 5rem')
                 img.setAttribute('src', item.thumb_url)
                 target_preview.appendChild(img);
+                console.log(item)
             });
-            console.log(items)
+         
 
             // trigger change event
             target_preview.dispatchEvent(new Event('change'));

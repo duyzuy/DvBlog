@@ -31,7 +31,7 @@
                                 @foreach($post->categories as $cat)
                                 <span class="tag is-link is-light">{{ $cat->cat_name }}</span>
                                 @endforeach
-                            
+
                             </td>
                             <td>{{ $post->post_status }}</td>
                             <td> {{ date('M j, Y h:ia', strtotime($post->published_at))}}</td>

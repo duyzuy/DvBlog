@@ -99,7 +99,16 @@
                                     <div class="content post-tags">
                                         <h4 class="title is-5">Tags</h4>
                                         
-                                        <tags-widget></tags-widget>
+                                        {{-- <tags-widget></tags-widget> --}}
+                                        <div class="fields">
+                                            @foreach($tags as $tag)
+                                                <p class="field"><b-checkbox v-model="tagSelected" native-value="{{ $tag->id }}">{{ $tag->tag_name }}</b-checkbox></p>
+                                            @endforeach
+                                            @error('post_tags')
+                                                <p class="help is-danger">{{ $message }}</p>
+                                            @enderror
+                                            <input type="hidden" name="post_tags" :value="tagSelected" class="input">
+                                        </div>
                                         
                                     </div>
 
@@ -152,6 +161,7 @@
                 categorySelected: {!! $post->categories()->pluck('id') !!},
                 title: '{{ $post->post_title }}',
                 slug: '{{ $post->post_slug }}',
+                tagSelected: {!! $post->tags()->pluck('tag_id') !!}
             },
             methods:{
                 updateSlug: function(val){
