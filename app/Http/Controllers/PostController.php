@@ -27,7 +27,7 @@ class PostController extends Controller
         return view('manage.posts.index', compact(['posts']));
     }
 
-    /**
+    /** 
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -50,6 +50,8 @@ class PostController extends Controller
     {
         //
         //Validate
+    //    dd(json_encode($request->post_image));
+
         $request->validate([
             'post_title'    =>  'required|max:255',
             'post_slug'     =>  'required|max:255|unique:posts,post_slug,',
@@ -67,11 +69,16 @@ class PostController extends Controller
         $post->comment_status = $request->comment_status;
         $published = Carbon::now();
         $post->published_at = $published->format('Y-m-d H:i:s');
+  
        
         $post->author_id = Auth::user()->id;
         $post->save();
 
-
+        //update image
+        if($request->post_image && $request->post_image !== null){
+            $post->image()->create(['url' => json_encode($request->post_image)]);
+        }
+      
         //Update the categories
         if( $request->post_categories === ''){
             return redirect()->route('posts.create');
@@ -158,6 +165,12 @@ class PostController extends Controller
             $post->categories()->sync(explode(',', $request->post_categories));
         }
         
+        //update image
+        if($request->post_image && $request->post_image !== null){
+            $post->image()->update(['url' => json_encode($request->post_image)]);
+        }
+      
+
         //Update tags
         if($request->post_tags !== null){
             $post->tags()->sync(explode(',', $request->post_tags));
@@ -187,8 +200,17 @@ class PostController extends Controller
     {
         //
         $post = Posts::where('id', $id)->firstOrFail();
+        $post->categories()->detach(); //many to many relationship
+        $post->image()->delete($id); //one to one polymophic relationship
+        $post->tags()->detach(); //many to many polymophic relationship
+        
         $post->delete();
-        $post->categories()->detach();
+
+        $tags = Tags::withCount('posts')->get();
+        foreach($tags as $tag){
+            $tag->tag_count = $tag->posts_count;
+            $tag->save();
+        }
 
         $request->session()->flash('success', 'Delete post successful!');
         return redirect()->back();

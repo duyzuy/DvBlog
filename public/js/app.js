@@ -1953,6 +1953,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     url: {
@@ -1966,11 +1967,14 @@ __webpack_require__.r(__webpack_exports__);
     title: {
       type: String,
       required: true
+    },
+    oldslug: {
+      type: String
     }
   },
   data: function data() {
     return {
-      slug: this.setSlug(this.title),
+      slug: this.oldslug,
       isEditing: false,
       customSlug: '',
       wasEdited: false,
@@ -2005,18 +2009,18 @@ __webpack_require__.r(__webpack_exports__);
       var vm = this; //test to see if unique
 
       if (this.api_token) {
-        axios.get('../../api/posts/unique', {
+        axios.get('http://localhost/DvBlog/api/posts/unique', {
           params: {
             api_token: vm.api_token,
             post_slug: slug
           }
         }).then(function (response) {
-          if (response.data) {
-            //if unique, then set the slug and emit event
+          if (response.data && slug !== vm.oldslug) {
+            //if not customize the slug to make it unique and test agian
             vm.setSlug(newVal, count + 1);
             vm.slug = slug;
           } else {
-            //if not customize the slug to make it unique and test agian
+            //if unique, then set the slug and emit event
             vm.slug = slug;
             vm.$emit('slug-changed', vm.slug);
           }

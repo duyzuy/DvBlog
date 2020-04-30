@@ -14,6 +14,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Image</th>
                             <th>Name</th>
                             <th>Categories</th>
                             <th>Status</th>
@@ -26,6 +27,23 @@
                         @foreach($posts as $post)
                         <tr>
                             <td>{{ $post->id }}</td>
+                            <td>
+                                @if(isset($post->image->url))
+                              
+                                @php
+                                    $image = @json_decode($post->image->url); // reuturn stdClass Object
+                                    // $image = @json_decode($post->image->url, true); // reuturn Array
+                                @endphp
+                                    @if($image->thumbnail !== null)
+                                        <img src="{{ $image->thumbnail }}" width="60" height="60" />
+                                    @else
+                                        <img src="{{ asset('images/96x96.png') }}" width="60" height="60" />
+                                    @endif
+                                @else
+                                    <img src="{{ asset('images/96x96.png') }}" width="60" height="60" />
+                                
+                                @endif
+                            </td>
                             <td>{{ $post->post_title }}</td>
                             <td>
                                 @foreach($post->categories as $cat)

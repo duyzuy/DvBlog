@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Posts extends Model
 {
+    protected $table = 'posts';
     //
     protected $fillable = [
         'post_title',
@@ -35,6 +36,10 @@ class Posts extends Model
 
     public function tags(){
         return $this->morphToMany('App\Tags', 'tagable', 'tagable_type', 'tagable_id', 'tag_id')->withTimestamps();
+    }
+
+    public function image(){
+        return $this->morphOne('App\Image', 'imageable');
     }
 
 

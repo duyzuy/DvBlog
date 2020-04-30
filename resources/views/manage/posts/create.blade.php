@@ -12,7 +12,7 @@
         </div>
         <div class="columns">
             <div class="column">
-                <form action="{{ route('posts.store') }}" method="POST" class="form">
+                <form action="{{ route('posts.store') }}" method="POST" class="form" enctype="multipart/form-data">
                     @csrf
                     <div class="columns">
                         <div class="column is-three-quarters content-area">
@@ -121,11 +121,12 @@
                                        
                                             <div class="field">
                                                 <span class="input-group-btn">
-                                                  <a id="lfm_image" data-input="post_thumbnail" data-preview="img_preview" class="button is-small">
+                                                  <a id="lfm_image" data-input="post_thumbnail" data-original="post_original" data-preview="img_preview" class="button is-small">
                                                     <i class="fa fa-picture-o"></i> Choose
                                                   </a>
                                                 </span>
-                                                <input id="post_thumbnail" class="form-control" type="hidden" name="post_thumbnail">
+                                                <input id="post_thumbnail" class="input" type="hidden" name="post_image[thumbnail]">
+                                                <input id="post_original" class="input" type="hidden" name="post_image[original]">
                                               </div>
                                     </div>
 
@@ -163,7 +164,7 @@
                 commentStatus: '{{ old("comment_status") ? old("comment_status") : "open" }}',
                 categorySelected: [],
                 title: '{{ old('post_title') }}',
-                slug: '',
+                slug: '{{ old('post_slug') }}',
                 api_token: '{{ Auth::user()->api_token }}',
                 tagSelected: [],
             },
@@ -199,33 +200,39 @@
         button.addEventListener('click', function () {
             var route_prefix = (options && options.prefix) ? options.prefix : '/Dvblog/filemanager';
             var target_input = document.getElementById(button.getAttribute('data-input'));
+            var target_original = document.getElementById(button.getAttribute('data-original'));
             var target_preview = document.getElementById(button.getAttribute('data-preview'));
 
             window.open(route_prefix + '?type=' + type || 'file', 'FileManager', 'width=900,height=600');
+            
             window.SetUrl = function (items) {
-            var file_path = items.map(function (item) {
-                return item.url;
-            }).join(',');
-        
-            // set the value of the desired input to image url
-            target_input.value = file_path;
-            target_input.dispatchEvent(new Event('change'));
+                
+                var file_path = items.map(function (item) {
+                    return item.url;
 
-            // clear previous preview
-            target_preview.innerHTML = '';
+                }).join(',');
+            
            
-            // set or change the preview image src
-            items.forEach(function (item) {
-                let img = document.createElement('img')
-                // img.setAttribute('style', 'height: 5rem')
-                img.setAttribute('src', item.thumb_url)
-                target_preview.appendChild(img);
-                console.log(item)
-            });
-         
+                // set the value of the desired input to image url
+                // target_input.value = file_thumbnail;
+                // target_original.value = file_path;
+                target_input.dispatchEvent(new Event('change'));
 
-            // trigger change event
-            target_preview.dispatchEvent(new Event('change'));
+                // clear previous preview
+                target_preview.innerHTML = '';
+            
+                // set or change the preview image src
+                items.forEach(function (item) {
+                    let img = document.createElement('img')
+                    target_input.value = item.thumb_url;
+                    target_original.value = item.url;
+                    // img.setAttribute('style', 'height: 5rem')
+                    img.setAttribute('src', item.thumb_url)
+                    target_preview.appendChild(img);
+                    console.log(item)
+                });
+                // trigger change event
+                target_preview.dispatchEvent(new Event('change'));
             };
         });
     }

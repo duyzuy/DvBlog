@@ -25,6 +25,7 @@
                                         url="{{ url('/') }}" 
                                         subdirectory="post" 
                                         :title="title"
+                                        oldslug="{{ $post->post_slug }}"
                                         @slug-changed="updateSlug"
                                         >
                                     </slug-widget>
@@ -32,7 +33,7 @@
                                    <input type="hidden" v-model="slug" name="post_slug" class="input">
                                    
                                    <b-field class="m-b-50">
-                                        <b-input type="textarea" name="post_content" rows="25" value="{{ $post->post_content }}"></b-input>
+                                        <b-input type="textarea" id="postContentEditor" name="post_content" rows="25" value="{{ $post->post_content }}"></b-input>
                                     </b-field>
 
                                      
@@ -79,7 +80,7 @@
 
                                     <hr class="m-t-10 m-b-10">
                                     <div class="content">
-                                        <button type="submit" class="button is-primary button-narrow">Publish</button>
+                                        <button type="submit" class="button is-primary button-narrow">Update</button>
                                         <a href="#" class="button is-light">Save Draft</a>
                                     </div>
 
@@ -115,20 +116,27 @@
                                     <hr class="m-t-10 m-b-10">
                                     <div class="content post-featured-image">
                                         <h4 class="title is-5">Featured image</h4>
-                                        <figure class="image is-4by3" style="margin: 0 0 20px">
-                                            <img src="{{ asset('/images/1280x960.png') }}" alt="Placeholder image">
+                                        <figure id="img_preview" class="image" style="margin: 0 0 20px">
+                                                @php
+                                                    $image = @json_decode($post->image->url);
+                                                @endphp
+                                                @if($image->thumbnail !== null)
+                                                    <img src="{{ $image->thumbnail }}" />
+                                                    
+                                                @endif
                                         </figure>
-                                        <div class="file">
-                                            <label class="file-label">
-                                              <input class="file-input" type="file" name="post_image">
-                                              <span class="file-cta">
-                                                <span class="file-label">
-                                                  Choose image
+                                            <div class="field">
+                                                <span class="input-group-btn">
+                                                  <a id="lfm_image" data-input="post_thumbnail" data-original="post_original" data-preview="img_preview" class="button is-small">
+                                                    <i class="fa fa-picture-o"></i> Choose
+                                                  </a>
                                                 </span>
-                                              </span>
-                                            </label>
-                                          </div>
+                                               
+                                                <input id="post_thumbnail" class="input" type="hidden" name="post_image[thumbnail]" value="{{ $image->thumbnail }}">
+                                                <input id="post_original" class="input" type="hidden" name="post_image[original]" value="{{ $image->original }}">
+                                              </div>
                                     </div>
+
 
                                     <hr class="m-t-10 m-b-10">
                                     <div class="content post-comment-status">
@@ -152,6 +160,9 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('plugins/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('plugins/ckeditor/adapters/jquery.js') }}"></script>
+    <script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
     <script>
         const app = new Vue({
             el: '#app', 
@@ -161,15 +172,79 @@
                 categorySelected: {!! $post->categories()->pluck('id') !!},
                 title: '{{ $post->post_title }}',
                 slug: '{{ $post->post_slug }}',
-                tagSelected: {!! $post->tags()->pluck('tag_id') !!}
+                tagSelected: {!! $post->tags()->pluck('tag_id') !!},
+                api_token: '{{ Auth::user()->api_token }}',
             },
             methods:{
                 updateSlug: function(val){
-                    this.slug = val
+                    this.slug = val;
                 }
             }
            
 
         })
+    </script>
+    <script>
+        if(document.getElementById("postContentEditor")){
+           
+            var options = {
+                filebrowserImageBrowseUrl: '{{ url("/") }}/filemanager?type=Images',
+                filebrowserImageUploadUrl: '{{ url("/") }}/filemanager?upload?type=Images&_token=',
+                filebrowserBrowseUrl: '{{ url("/") }}/filemanager?type=Files',
+                filebrowserUploadUrl: '{{ url("/") }}/filemanager?upload?type=Files&_token=',
+           
+            };
+            CKEDITOR.replace("postContentEditor", options);
+            CKEDITOR.config.height = 680;
+            CKEDITOR.config.removePlugins = 'resize';
+           
+        }
+      
+        var lfm = function(id, type, options) {
+            
+        let button = document.getElementById(id);
+
+        button.addEventListener('click', function () {
+            var route_prefix = (options && options.prefix) ? options.prefix : '/Dvblog/filemanager';
+            var target_input = document.getElementById(button.getAttribute('data-input'));
+            var target_original = document.getElementById(button.getAttribute('data-original'));
+            var target_preview = document.getElementById(button.getAttribute('data-preview'));
+
+            window.open(route_prefix + '?type=' + type || 'file', 'FileManager', 'width=900,height=600');
+            
+            window.SetUrl = function (items) {
+                
+                var file_path = items.map(function (item) {
+                    return item.url;
+
+                }).join(',');
+            
+           
+                // set the value of the desired input to image url
+                // target_input.value = file_thumbnail;
+                // target_original.value = file_path;
+                target_input.dispatchEvent(new Event('change'));
+
+                // clear previous preview
+                target_preview.innerHTML = '';
+            
+                // set or change the preview image src
+                items.forEach(function (item) {
+                    let img = document.createElement('img')
+                    target_input.value = item.thumb_url;
+                    target_original.value = item.url;
+                    // img.setAttribute('style', 'height: 5rem')
+                    img.setAttribute('src', item.thumb_url)
+                    target_preview.appendChild(img);
+                    console.log(item)
+                });
+                // trigger change event
+                target_preview.dispatchEvent(new Event('change'));
+            };
+        });
+    }
+        var route_prefix = "/Dvblog/filemanager";
+        lfm('lfm_image', 'image', {prefix: route_prefix});
+
     </script>
 @endpush

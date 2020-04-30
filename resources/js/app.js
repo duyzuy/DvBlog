@@ -26,4 +26,3 @@ Vue.component('slug-widget', require('./components/SlugWidgetComponent.vue').def
 //     el: '#app',
 //     data:{}
 // });
-

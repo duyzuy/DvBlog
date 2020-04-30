@@ -32,6 +32,7 @@
             <span class="subdirectory">/{{subdirectory}}/</span>
             <span class="slug" v-show="slug && !isEditing">{{slug}}</span>
             <input type="text" class="input is-small" v-show="isEditing" v-model="customSlug">
+         
        </div>
 
        <div class="button-wrapper wrapper">
@@ -58,15 +59,17 @@
                 type: String,
                 required: true
             },
-
+            oldslug: {
+                type: String,
+            }
         },
         data () {
             return {
-                slug: this.setSlug(this.title),
+                slug: this.oldslug,
                 isEditing: false, 
                 customSlug: '',
                 wasEdited: false,
-                api_token: this.$root.api_token
+                api_token: this.$root.api_token,
             }
         },
         methods:{
@@ -96,20 +99,21 @@
                
                //test to see if unique
                if(this.api_token){
-                    axios.get('../../api/posts/unique',{
+                    axios.get('http://localhost/DvBlog/api/posts/unique',{
                         params:{
                             api_token: vm.api_token,
                             post_slug: slug
                         }
                     }).then(function(response){
                         
-                        if(response.data){
-                             //if unique, then set the slug and emit event
+                        if(response.data && slug !== vm.oldslug ){
+                             //if not customize the slug to make it unique and test agian
+                             
                             vm.setSlug(newVal, count+1)
                             vm.slug = slug
 
                         }else{
-                                //if not customize the slug to make it unique and test agian
+                               //if unique, then set the slug and emit event
                             vm.slug = slug;
                             vm.$emit('slug-changed', vm.slug);
                         }
@@ -124,7 +128,8 @@
                 if(this.wasEdited === false){
                     this.slug = this.setSlug(this.title);
                 }
-            }, 500)
+            }, 500),
+          
         }
     }
 </script>
