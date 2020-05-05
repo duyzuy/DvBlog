@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
 Auth::routes();
@@ -27,7 +24,9 @@ Route::prefix('manage')->middleware('role:superadministrator|administrator|edito
     Route::resource('/user', 'UserController');
     Route::resource('/permission', 'PermissionController', ['except' => 'destroy']);
     Route::resource('/role', 'RoleController', ['except' => 'destroy']);
+
     Route::resource('/posts', 'PostController');
+
     Route::resource('/categories', 'CategoriesController');
 
     Route::post('ckeditor/image_upload', 'CkeditorController@upload')->name('upload');
@@ -38,4 +37,16 @@ Route::prefix('manage')->middleware('role:superadministrator|administrator|edito
 });
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::name('frontend.')->group(function(){
+
+   
+        
+    Route::get('/', 'Frontend\PageController@index')->name('home');
+    Route::get('/blog', 'Frontend\PostController@lists')->name('blog');
+    Route::get('/post/{post_slug}', 'Frontend\PostController@postdetail')->name('postdetail');
+    // Route::post('/post/{post}', 'Frontend\PostController@postdetail')->name('postpostdetail');
+
+
+});
+
+

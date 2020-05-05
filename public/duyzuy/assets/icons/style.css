@@ -1,0 +1,104 @@
+@font-face {
+  font-family: 'duyzuy';
+  src:  url('fonts/duyzuy.eot?oqfqzc');
+  src:  url('fonts/duyzuy.eot?oqfqzc#iefix') format('embedded-opentype'),
+    url('fonts/duyzuy.ttf?oqfqzc') format('truetype'),
+    url('fonts/duyzuy.woff?oqfqzc') format('woff'),
+    url('fonts/duyzuy.svg?oqfqzc#duyzuy') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.icon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'duyzuy' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-youtube:before {
+  content: "\e900";
+}
+.icon-linkedin:before {
+  content: "\e901";
+}
+.icon-twitter:before {
+  content: "\e902";
+}
+.icon-github:before {
+  content: "\e903";
+}
+.icon-heart .path1:before {
+  content: "\e904";
+  color: rgb(255, 98, 67);
+}
+.icon-heart .path2:before {
+  content: "\e905";
+  margin-left: -1em;
+  color: rgb(255, 80, 35);
+}
+.icon-heart-1:before {
+  content: "\e906";
+}
+.icon-send:before {
+  content: "\e907";
+}
+.icon-mail:before {
+  content: "\e908";
+}
+.icon-envelope:before {
+  content: "\e909";
+}
+.icon-phone:before {
+  content: "\e90a";
+}
+.icon-facebook:before {
+  content: "\e90b";
+}
+.icon-quote:before {
+  content: "\e90c";
+}
+.icon-quote-1:before {
+  content: "\e90d";
+}
+.icon-clock:before {
+  content: "\e90e";
+}
+.icon-search .path1:before {
+  content: "\e90f";
+  color: rgb(191, 191, 191);
+}
+.icon-search .path2:before {
+  content: "\e910";
+  margin-left: -1em;
+  color: rgb(187, 187, 187);
+}
+.icon-facebook-share:before {
+  content: "\e911";
+  color: #fff;
+}
+.icon-twitter-share:before {
+  content: "\e912";
+  color: #fff;
+}
+.icon-pinterest-share:before {
+  content: "\e913";
+  color: #fff;
+}
+.socials-share i{
+    margin-right: 0.25rem;
+    font-size: 1.1rem;
+    vertical-align: text-bottom;
+}
+.footer-article{
+  background: #1b2633
+}

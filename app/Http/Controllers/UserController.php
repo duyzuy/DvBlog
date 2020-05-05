@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Session;
 use App\User;
 use App\Role;
@@ -15,9 +16,19 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    //  public function __construct(){
+
+    //     $user = Auth::user();
+    //     if(!$user->hasRole(['administrator'])){
+    //         return 'you have no permission';
+    //     }
+    //  }
+
     public function index()
     {
         //
+      
         $users = User::orderBy('id', 'desc')->paginate(10);
         return view('manage.user.index')->with(compact('users'));
         

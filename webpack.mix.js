@@ -13,6 +13,8 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
-   .sass('resources/sass/plugin/ckeditor.scss', 'public/css/plugin');
-   // .sass('resources/sass/icon.scss', 'public/css');
+   .sass('resources/sass/plugin/ckeditor.scss', 'public/css/plugin')
+   .sass('resources/sass/frontend/theme.scss', 'public/css/frontend').options({
+      processCssUrls: false
+   });
 

@@ -2,7 +2,7 @@
     <div class="container">
         <div class="navbar-brand">
             <div class="navbar-item navbar-logo">
-                <a class="navbar-logo-link" href="{{ route('home') }}">
+                <a class="navbar-logo-link" href="{{ route('frontend.home') }}">
                     <img src="{{ asset('/images/bulma-logo.png') }}" width="112" height="28">
                 </a>
             </div>
