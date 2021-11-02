@@ -30,6 +30,6 @@
         "ckeditor4": "^4.14.0",
         "font-awesome": "^4.7.0",
         "slug": "^2.1.1",
-        "tinymce": "^5.2.2"
+        "tinymce": "^5.10.0"
     }
 }
