@@ -27,7 +27,7 @@
         "@fortawesome/fontawesome-free": "^5.13.0",
         "buefy": "^0.8.15",
         "bulma": "^0.8.1",
-        "ckeditor4": "^4.14.0",
+        "ckeditor4": "^4.17.0",
         "font-awesome": "^4.7.0",
         "slug": "^2.1.1",
         "tinymce": "^5.2.2"
